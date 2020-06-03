@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +18,8 @@ public class BattleSystem : MonoBehaviour
     public Transform player2Spawn;
     public Transform enemy1Spawn;
 
-    Unit playerUnit;
+    Unit player1Unit;
+    Unit player2Unit;
     Unit enemyUnit;
 
     public BattleHUD playerHUD;
@@ -40,7 +41,7 @@ public class BattleSystem : MonoBehaviour
         GameObject player1GO = Instantiate(Resources.Load("cloud_prefab") as GameObject);
         player1GO.transform.position = player1pos;
         player1GO.transform.rotation = player1rot;
-        playerUnit = player1GO.GetComponent<Unit>();
+        player1Unit = player1GO.GetComponent<Unit>();
 
         // Instantiating the prefab and locataion for player character 2
         Vector3 player2pos = player2Spawn.transform.position;
@@ -48,7 +49,7 @@ public class BattleSystem : MonoBehaviour
         GameObject player2GO = Instantiate(Resources.Load("tifa_prefab") as GameObject);
         player2GO.transform.position = player2pos;
         player2GO.transform.rotation = player2rot;
-        // CREATE UNIT REF HERE
+        player2Unit = player2GO.GetComponent<Unit>();
 
 
 
@@ -66,8 +67,41 @@ public class BattleSystem : MonoBehaviour
 
 
 
-        playerHUD.SetHUD(playerUnit);
+        var unitsFound = FindObjectsOfType<Unit>();
+        foreach (var x in unitsFound)
+        {
+            playerHUD.SetHUD(x);
+        }
+
+        //playerHUD.SetHUD(player1Unit);
         enemyHUD.SetHUD(enemyUnit);
+
+    
+
+
+        //set up Turn system
+        Debug.Log(unitsFound.Length +" units found in the battle:");
+
+        IList<Unit> units = new List<Unit>();
+
+
+        foreach (var x in unitsFound)
+        {
+            units.Add(x);
+        }
+
+        for (int i = 0; i < units.Count; i++)
+        {
+            Debug.Log(units[i].unitName + ", Speed: " + units[i].speed);
+        }
+
+        // create reference to TurnSystem and attach TurnSystem script to the BattleSystem game object
+        TurnSystem turns = GameObject.Find("BattleSystem").AddComponent<TurnSystem>();
+        // send our units to Turnystem
+        turns.setupTurnSystem(units);
+
+
+
 
         yield return new WaitForSeconds(2f);
 
@@ -77,7 +111,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+        bool isDead = enemyUnit.TakeDamage(player1Unit.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP);
         Debug.Log("Attack successful");
@@ -101,9 +135,9 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerHeal()
     {
-        playerUnit.HealDamage(playerUnit.damage);
+        player1Unit.HealDamage(player1Unit.damage);
 
-        playerHUD.SetHP(playerUnit.currentHP);
+        playerHUD.SetHP(player1Unit.currentHP);
         Debug.Log("Heal successful");
 
         // Hide the player Actions options after selection is made
@@ -117,9 +151,9 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyAttack()
     {
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        bool isDead = player1Unit.TakeDamage(enemyUnit.damage);
 
-        playerHUD.SetHP(playerUnit.currentHP);
+        playerHUD.SetHP(player1Unit.currentHP);
         Debug.Log("Attack successful");
 
         // Hide the enemy's Actions options after selection is made
