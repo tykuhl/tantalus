@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +8,12 @@ public class BattleHUD : MonoBehaviour
 {
     public TextMeshProUGUI Unit1_name;
     public TextMeshProUGUI Unit1_currentHP;
+    public TextMeshProUGUI Unit2_name;
+    public TextMeshProUGUI Unit2_currentHP;
+    public TextMeshProUGUI Unit3_name;
+    public TextMeshProUGUI Unit3_currentHP;
+    public TextMeshProUGUI Unit4_name;
+    public TextMeshProUGUI Unit4_currentHP;
 
     public Button healButton;
     public Button attackButton;
@@ -16,8 +22,51 @@ public class BattleHUD : MonoBehaviour
 
     public void SetHUD(Unit unit)
     {
-        Unit1_name.text = unit.unitName;
-        Unit1_currentHP.SetText(unit.currentHP.ToString());
+        if (!(unit.isEnemy))
+        {
+            if (Unit1_name.text == "Name")
+            {
+                Unit1_name.text = unit.unitName;
+                Unit1_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit2_name.text == "Name")
+            {
+                Unit2_name.text = unit.unitName;
+                Unit2_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit3_name.text == "Name")
+            {
+                Unit3_name.text = unit.unitName;
+                Unit3_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit4_name.text == "Name")
+            {
+                Unit4_name.text = unit.unitName;
+                Unit4_currentHP.SetText(unit.currentHP.ToString());
+            }
+        } else if (unit.isEnemy)
+        {
+            if (Unit1_name.text == "enemyName")
+            {
+                Unit1_name.text = unit.unitName;
+                Unit1_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit2_name.text == "enemyName")
+            {
+                Unit2_name.text = unit.unitName;
+                Unit2_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit3_name.text == "enemyName")
+            {
+                Unit3_name.text = unit.unitName;
+                Unit3_currentHP.SetText(unit.currentHP.ToString());
+            }
+            else if (Unit4_name.text == "enemyName")
+            {
+                Unit4_name.text = unit.unitName;
+                Unit4_currentHP.SetText(unit.currentHP.ToString());
+            }
+        }
     }
 
     
