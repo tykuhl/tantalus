@@ -93,6 +93,5 @@ public class BattleHUD : MonoBehaviour
         hud.healButton.GetComponent<Button>().enabled = false;
         hud.healButton.GetComponent<Image>().enabled = false;
         hud.healButtonText.GetComponent<TextMeshProUGUI>().enabled = false;
-
     }
 }
