@@ -16,11 +16,16 @@ public class BattleSystem : MonoBehaviour
 
     public Transform player1Spawn;
     public Transform player2Spawn;
+    public Transform player3Spawn;
+    public Transform player4Spawn;
     public Transform enemy1Spawn;
+    public Transform enemy2Spawn;
+    public Transform enemy3Spawn;
+    public Transform enemy4Spawn;
 
     Unit player1Unit;
     Unit player2Unit;
-    Unit enemyUnit;
+    Unit enemy1Unit;
 
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
@@ -33,9 +38,11 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
+        /**
+        Ideally this part of setting up the battle is done in BattleEncounter, where the Units will be sent here
+        **/
+
         // Instantiating the prefab and locataion for player character 1
-
-
         Vector3 player1pos = player1Spawn.transform.position;
         Quaternion player1rot = player1Spawn.transform.rotation;
         GameObject player1GO = Instantiate(Resources.Load("cloud_prefab") as GameObject);
@@ -51,30 +58,29 @@ public class BattleSystem : MonoBehaviour
         player2GO.transform.rotation = player2rot;
         player2Unit = player2GO.GetComponent<Unit>();
 
-
-
-
-
-
         // Instantiating the prefab and locataion for enemy character 1
         Vector3 enemy1pos = enemy1Spawn.transform.position;
         Quaternion enemy1rot = enemy1Spawn.transform.rotation;
         GameObject enemy1GO = Instantiate(Resources.Load("sephiroth_prefab") as GameObject);
         enemy1GO.transform.position = enemy1pos;
         enemy1GO.transform.rotation = enemy1rot;
-        enemyUnit = enemy1GO.GetComponent<Unit>();
-        // CREATE UNIT REF HERE
+        enemy1Unit = enemy1GO.GetComponent<Unit>();
 
 
 
+        /**
+        Ideally this part will get Unit list from BattleEncounter, separated into enemy and player units.
+        Then do a foreach loop for each Unit in the List to be sent to SetHUD method of BattleHUD
+        **/
         var unitsFound = FindObjectsOfType<Unit>();
         foreach (var x in unitsFound)
         {
             playerHUD.SetHUD(x);
+            enemyHUD.SetHUD(x);
         }
 
         //playerHUD.SetHUD(player1Unit);
-        enemyHUD.SetHUD(enemyUnit);
+        //enemyHUD.SetHUD(enemyUnit);
 
     
 
@@ -111,10 +117,12 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        bool isDead = enemyUnit.TakeDamage(player1Unit.damage);
+        //MakeSelection();
+        
+        bool isDead = enemy1Unit.TakeDamage(player1Unit.damage);
 
-        enemyHUD.SetHP(enemyUnit.currentHP);
-        Debug.Log("Attack successful");
+        enemyHUD.SetHP(enemy1Unit.currentHP);
+        Debug.Log("Attack successful against " + enemy1Unit);
 
         // Hide the player Actions options after selection is made
         playerHUD.DisableActions(playerHUD);
@@ -151,10 +159,10 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyAttack()
     {
-        bool isDead = player1Unit.TakeDamage(enemyUnit.damage);
+        bool isDead = player1Unit.TakeDamage(enemy1Unit.damage);
 
         playerHUD.SetHP(player1Unit.currentHP);
-        Debug.Log("Attack successful");
+        Debug.Log("Attack successful against " + player1Unit.unitName + "with " + player1Unit.currentHP + " HP");
 
         // Hide the enemy's Actions options after selection is made
         enemyHUD.DisableActions(enemyHUD);
@@ -175,9 +183,9 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyHeal()
     {
-        enemyUnit.HealDamage(enemyUnit.damage);
+        enemy1Unit.HealDamage(enemy1Unit.damage);
 
-        enemyHUD.SetHP(enemyUnit.currentHP);
+        enemyHUD.SetHP(enemy1Unit.currentHP);
         Debug.Log("Heal successful");
 
         // Hide the enemy's Actions options after selection is made
@@ -189,7 +197,6 @@ public class BattleSystem : MonoBehaviour
         PlayerTurn();
     }
 
-    //IEnumerator EnemyTurn()
     void EnemyTurn()
     {
         // enemy logic
@@ -209,6 +216,21 @@ public class BattleSystem : MonoBehaviour
         // enable the player's Actions when their turn starts
         playerHUD.EnableActions(playerHUD);
     }
+
+    /**
+    Unit MakeSelection()
+    {
+        // spawn indicator arrow thingy over the first enemy Unit.
+        // set var selectedUnit to enemy1Unit
+        // if input is W or Up Arrow, change selection.
+        
+
+        if (Input.GetButtonDown("Submit"))
+        {
+            // return Unit
+        }
+    }
+    **/
 
     public void OnPlayerAttackButton()
     {
