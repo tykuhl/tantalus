@@ -20,51 +20,52 @@ public class BattleHUD : MonoBehaviour
     public TextMeshProUGUI attackButtonText;
     public TextMeshProUGUI healButtonText;
 
-    public void SetHUD(Unit unit)
+    public void SetHUD(UnitManager unit)
     {
-        if (!(unit.isEnemy))
+        Debug.Log(unit.data);
+        if (!(unit.data.isEnemy))
         {
             if (Unit1_name.text == "Name")
             {
-                Unit1_name.text = unit.unitName;
-                Unit1_currentHP.SetText(unit.currentHP.ToString());
+                Unit1_name.text = unit.data.unitName;
+                Unit1_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit2_name.text == "Name")
             {
-                Unit2_name.text = unit.unitName;
-                Unit2_currentHP.SetText(unit.currentHP.ToString());
+                Unit2_name.text = unit.data.unitName;
+                Unit2_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit3_name.text == "Name")
             {
-                Unit3_name.text = unit.unitName;
-                Unit3_currentHP.SetText(unit.currentHP.ToString());
+                Unit3_name.text = unit.data.unitName;
+                Unit3_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit4_name.text == "Name")
             {
-                Unit4_name.text = unit.unitName;
-                Unit4_currentHP.SetText(unit.currentHP.ToString());
+                Unit4_name.text = unit.data.unitName;
+                Unit4_currentHP.SetText(unit.data.currentHP.ToString());
             }
-        } else if (unit.isEnemy)
+        } else if (unit.data.isEnemy)
         {
             if (Unit1_name.text == "enemyName")
             {
-                Unit1_name.text = unit.unitName;
-                Unit1_currentHP.SetText(unit.currentHP.ToString());
+                Unit1_name.text = unit.data.unitName;
+                Unit1_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit2_name.text == "enemyName")
             {
-                Unit2_name.text = unit.unitName;
-                Unit2_currentHP.SetText(unit.currentHP.ToString());
+                Unit2_name.text = unit.data.unitName;
+                Unit2_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit3_name.text == "enemyName")
             {
-                Unit3_name.text = unit.unitName;
-                Unit3_currentHP.SetText(unit.currentHP.ToString());
+                Unit3_name.text = unit.data.unitName;
+                Unit3_currentHP.SetText(unit.data.currentHP.ToString());
             }
             else if (Unit4_name.text == "enemyName")
             {
-                Unit4_name.text = unit.unitName;
-                Unit4_currentHP.SetText(unit.currentHP.ToString());
+                Unit4_name.text = unit.data.unitName;
+                Unit4_currentHP.SetText(unit.data.currentHP.ToString());
             }
         }
     }
