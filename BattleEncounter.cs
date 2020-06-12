@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,5 +10,4 @@ public class BattleEncounter : MonoBehaviour
     
     IList<Unit> playerUnits = new List<Unit>();
     IList<Unit> enemyUnits = new List<Unit>();
-
 }
